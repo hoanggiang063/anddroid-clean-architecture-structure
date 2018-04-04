@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ProjectStructure</string>
+    <string name="btn.text.loaduser.name">Load User</string>
+</resources>

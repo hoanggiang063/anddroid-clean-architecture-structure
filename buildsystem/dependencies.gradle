@@ -1,0 +1,78 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    //Android
+    androidBuildToolsVersion = "26.0.2"
+    androidMinSdkVersion = 15
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
+    supportLibraryVersion = '25.3.1'
+
+    //Libraries
+    daggerVersion = '2.9'
+    butterKnifeVersion = '8.7.0'
+    butterKnifeCompiler = '8.7.0'
+    rxJavaVersion = '1.1.6'
+    rxAndroidVersion = '1.2.1'
+    javaxAnnotationVersion = '1.0'
+    gsonVersion = '2.7'
+    okHttpVersion = '3.3.1'
+    androidAnnotationsVersion = '23.1.1'
+    retrofitVersion = '2.3.0'
+    retrofitJsonConverterVersion = '2.3.0'
+    retrofitRxjavaVersion = '2.3.0'
+
+    //Testing
+    jUnitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '1.10.19'
+    testingSupportLibVersion = '0.1'
+    testRunnerVersion = '0.4'
+
+    presentationDependencies = [
+            supportAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}",
+            supportDesignLibrary : "com.android.support:design:${supportLibraryVersion}",
+            daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger               : "com.google.dagger:dagger:${daggerVersion}",
+            butterKnife          : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeCompiler  : "com.jakewharton:butterknife-compiler:${butterKnifeCompiler}",
+            gson                 : "com.google.code.gson:gson:${gsonVersion}",
+
+            rxJava               : dependencies.create("io.reactivex:rxjava:${rxJavaVersion}") {
+                exclude module: 'rxjava'
+                exclude group: 'com.squareup.okhttp3'
+            },
+            rxAndroid            : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+
+            retrofit             : dependencies.create("com.squareup.retrofit2:retrofit:${retrofitVersion}") {
+                exclude group: 'com.squareup.okhttp3'
+            },
+            retrofitJsonConverter: dependencies.create("com.squareup.retrofit2:converter-gson:${retrofitJsonConverterVersion}") {
+                exclude group: 'com.squareup.okhttp3'
+            },
+            retrofitRxjava       : dependencies.create("com.squareup.retrofit2:adapter-rxjava:${retrofitRxjavaVersion}") {
+                exclude module: 'rxjava'
+                exclude group: 'com.squareup.okhttp3'
+            },
+
+            okHttp               : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpInterceptor    : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+    ]
+
+    presentationTestDependencies = [
+            junit              : "junit:junit:${jUnitVersion}",
+            assertj            : "org.assertj:assertj-core:${assertJVersion}",
+            mockito            : "org.mockito:mockito-core:${mockitoVersion}",
+            powermockJunit     : "org.powermock:powermock-module-junit4:1.6.5",
+            powermockMockito   : "org.powermock:powermock-api-mockito:1.6.6",
+
+            rxJava             : "io.reactivex:rxjava:${rxJavaVersion}",
+            testingSupportLib  : "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+
+    ]
+}

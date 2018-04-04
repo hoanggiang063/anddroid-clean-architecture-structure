@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        applicationId "com.clean.example"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'  // Some libraries have issues with this
+        disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+
+    /* Core android library */
+    compile presentationDependencies.supportAnnotations
+    compile presentationDependencies.supportDesignLibrary
+
+    /* Other library */
+    provided presentationDependencies.javaxAnnotation
+    compile presentationDependencies.butterKnife
+    annotationProcessor presentationDependencies.butterKnifeCompiler
+
+    compile presentationDependencies.dagger
+    annotationProcessor presentationDependencies.daggerCompiler
+
+    compile presentationDependencies.okHttp
+    compile presentationDependencies.okHttpInterceptor
+
+    compile presentationDependencies.retrofit
+    compile presentationDependencies.retrofitRxjava
+    compile presentationDependencies.retrofitJsonConverter
+
+    compile presentationDependencies.rxJava
+    compile presentationDependencies.rxAndroid
+
+    // test dependencies
+    testCompile presentationTestDependencies.junit
+    testCompile presentationTestDependencies.mockito
+    testCompile presentationTestDependencies.powermockJunit
+    testCompile presentationTestDependencies.powermockMockito
+    testCompile presentationTestDependencies.rxJava
+
+    compile project(':bussiness');
+    compile project(':repository');
+}

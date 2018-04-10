@@ -36,23 +36,23 @@ public class BaseRepository {
             @Override
             public void call(Subscriber<? super T> subscriber) {
 
-                if (throwable instanceof HttpException) {
-                    Response response = ((HttpException) throwable).response();
-                    if (isBusinessException(response)) {
-                        ErrorModel errorModel = new Gson().fromJson(getStringFromResponseBody(response.errorBody()), ErrorModel.class);
-                        BusinessException exception = new BusinessException();
-                        exception.setCode(errorModel.getErrorCode());
-                        exception.setMessage(errorModel.getErrorMessage());
-                        subscriber.onError(exception);
+                    if (throwable instanceof HttpException) {
+                        Response response = ((HttpException) throwable).response();
+                        if (isBusinessException(response)) {
+                            ErrorModel errorModel = new Gson().fromJson(getStringFromResponseBody(response.errorBody()), ErrorModel.class);
+                            BusinessException exception = new BusinessException();
+                            exception.setCode(errorModel.getErrorCode());
+                            exception.setMessage(errorModel.getErrorMessage());
+                            subscriber.onError(exception);
+                        } else {
+                            subscriber.onError(new GenericException());
+                        }
+                    } else if (throwable instanceof SocketTimeoutException) {
+                        subscriber.onError(new NetworkException());
+                    } else if (throwable instanceof IOException) {
+                        subscriber.onError(new IOException());
                     } else {
-                        subscriber.onError(new GenericException());
-                    }
-                } else if (throwable instanceof SocketTimeoutException) {
-                    subscriber.onError(new NetworkException());
-                } else if (throwable instanceof IOException) {
-                    subscriber.onError(new IOException());
-                } else {
-                    subscriber.onError(new UnknownException());
+                        subscriber.onError(new UnknownException());
                 }
             }
         });

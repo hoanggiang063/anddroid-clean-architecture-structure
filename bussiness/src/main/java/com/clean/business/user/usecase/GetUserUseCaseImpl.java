@@ -10,7 +10,7 @@ import com.clean.business.user.repository.UserRepository;
 
 public class GetUserUseCaseImpl extends BaseUseCase<UserInfo, UserCallBack> implements GetUserUseCase {
 
-    private static final String USER_BLOCKED = "001 ";
+    private static final String USER_BLOCKED = "001";
     private static final String USER_CLOSED = "002";
     private UserRepository userRepository;
 
